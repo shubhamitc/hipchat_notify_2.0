@@ -38,9 +38,9 @@ Audience
 
 System Engineers and operation engineers
 
--   [*pops@vuclip.com*](mailto:pops@vuclip.com)
+-   [*pops@gmail.com*](mailto:pops@gmail.com)
 
--   [*suyog.shirgaonkar@vuclip.com*](mailto:suyog.shirgaonkar@vuclip.com)
+-   [*suyog.shirgaonkar@gmail.com*](mailto:suyog.shirgaonkar@gmail.com)
 
 Introduction
 ============
