@@ -374,6 +374,8 @@ Example notification
 
 ![](image1.png){width="6.268055555555556in"
 height="3.5277777777777777in"}
+![alt tag](https://raw.githubusercontent.com/shubhamitc/hipchat_notify_2.0.git/master/img1.png)
+
 
 Roadmap
 =======
