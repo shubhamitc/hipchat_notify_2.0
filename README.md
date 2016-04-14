@@ -372,8 +372,7 @@ This will change the Icinga server to support the hipchat adapter ,
 Example notification
 ====================
 
-![](image1.png){width="6.268055555555556in"
-height="3.5277777777777777in"}
+![](image1.png)
 
 
 Roadmap
