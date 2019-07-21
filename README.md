@@ -36,11 +36,8 @@ Shubhamkr619@gmail.com
 Audience 
 =========
 
-System Engineers and operation engineers
+- System Engineers and operation engineers
 
--   [*pops@gmail.com*](mailto:pops@gmail.com)
-
--   [*suyog.shirgaonkar@gmail.com*](mailto:suyog.shirgaonkar@gmail.com)
 
 Introduction
 ============
@@ -91,31 +88,34 @@ version 2.0. In order for script to work we need to install 2 gems,
 2.  Trollop
 
   ----------------------------
-  \# apt-get install ruby -y
+  ```sh apt-get install ruby -y
 
-  \# gem install hipchat
+  # gem install hipchat
 
-  \# gem install trollop
+  # gem install trollop
+  ```
   ----------------------------
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  \#!/usr/bin/env ruby
+  ```ruby
+  #!/usr/bin/env ruby
 
   require 'hipchat'
 
   require 'trollop'
+  
 
-  \#
+  #
 
-  \# Provides a hipchat notifier with minimal requirements.
+  # Provides a hipchat notifier with minimal requirements.
 
-  \# Post the nofication to room
+  # Post the nofication to room
 
-  \#
+  #
 
-  \# Docs: http://wiki.opscode.com/display/chef/Exception+and+Report+Handlers
+  # Docs: http://wiki.opscode.com/display/chef/Exception+and+Report+Handlers
 
-  \#
+  #
 
   \# Install - add the following to your client.rb:
 
@@ -216,6 +216,7 @@ version 2.0. In order for script to work we need to install 2 gems,
   abort "hip\_chat\_cli: \#{err.message}"
 
   end
+  ```
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Script used on server
@@ -228,6 +229,7 @@ Service notification
 --------------------
 
   --------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ```sh
   root@hubot0:/etc/icinga2/scripts\# cat hipchat-service-notification.sh
 
   \#!/bin/sh
@@ -261,13 +263,15 @@ Service notification
   dir="\$(readlink -f \$(dirname \$0))"
 
   ruby \$dir/notify --message "\$(/usr/bin/printf "%b" "\$template")" --name icinga --apitoken "&lt;TOKEN&gt;" --roomname 2614946 --alerttype "\$SERVICESTATE"
+  ```
   --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Host notification
 -----------------
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------
-  root@hubot0:/etc/icinga2/scripts\# cat mail-host-notification-hipchat.sh
+  ```sh
+  #root@hubot0:/etc/icinga2/scripts\# cat mail-host-notification-hipchat.sh
 
   \#!/bin/sh
 
@@ -288,6 +292,7 @@ Host notification
   ruby \$dir/notify --message "\$(/usr/bin/printf "%b" "\$template")" --name icinga --apitoken "&lt;TOKEN&gt;" --roomname 2614946 --alerttype "warning"
 
   root@hubot0:/etc/icinga2/scripts\#
+  ```
   -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Change in command.conf for Icinga server
@@ -296,6 +301,7 @@ Change in command.conf for Icinga server
 This will change the Icinga server to support the hipchat adapter ,
 
   -----------------------------------------------------------------------------------
+  ```sh
   root@hubot0:/etc/icinga2/scripts\# cat ../conf.d/commands.conf
 
   /\* Command objects \*/
@@ -367,6 +373,7 @@ This will change the Icinga server to support the hipchat adapter ,
   }
 
   }
+  ```
   -----------------------------------------------------------------------------------
 
 Example notification
