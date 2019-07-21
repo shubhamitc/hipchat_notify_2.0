@@ -2,8 +2,8 @@
 Hipchat notification with API 2.0 to be used with ICINGA/Nagios
 
 
-Table of Contents
-=================
+## Table of Contents
+
 
 > [*Table of Contents*](#table-of-contents)
 >
@@ -28,19 +28,17 @@ Table of Contents
 >
 > [*Roadmap*](#roadmap)
 
-Author
-======
+# Author
 
 Shubhamkr619@gmail.com
 
-Audience 
-=========
+# Audience 
+
 
 - System Engineers and operation engineers
 
 
-Introduction
-============
+# Introduction
 
 Change the default mail notification of Icinga server to hipchat
 notification using ruby code. This will allow a single place of
@@ -59,22 +57,21 @@ traditional alerting system.
 
 5.  Integration with multiple tools in CI cycle
 
-    a.  Jenkins
+    *  Jenkins
 
-    b.  Chef
+    *  Chef
 
-    c.  Bitbucket/Github
+    *  Bitbucket/Github
 
-    d.  Jira
+    *  Jira
 
-    e.  Confluence …. Etc
+    *  Confluence …. Etc
 
 As per plan once Elastalert is implemented Hipchat will support business
 and revenue alerts, and hopefully with event based proactive/reactive
 handling or issues.
 
-Ruby Script
-===========
+# Ruby Script
 
 Need to create a Ruby script in order to make sure that we can send
 messages from a single server. Idea here is to be able to configure
@@ -117,53 +114,53 @@ version 2.0. In order for script to work we need to install 2 gems,
 
   #
 
-  \# Install - add the following to your client.rb:
+  # Install - add the following to your client.rb:
 
-  \# gem install hipchat \# Configure CLI entries
+  # gem install hipchat \# Configure CLI entries
 
-  \# gem install trollop \# configure commandline option parser
+  # gem install trollop \# configure commandline option parser
 
   module HipChat
 
   class NotifyRoomCli
 
-  def initialize(api\_token, room\_name, msg, options={})
+  def initialize(api_token, room_name, msg, options={})
 
-  defaults = { hipchat\_options: {api\_version: 'v2',server\_url: 'https://api.hipchat.com'}, msg\_options: {:notify =&gt; true}, excluded\_envs: \[\], msg\_prefix: ''}
+  defaults = { hipchat_options: {api_version: 'v2',server_url: 'https://api.hipchat.com'}, msg_options: {:notify =&gt; true}, excluded_envs: [], msg_prefix: ''}
 
   options = defaults.merge(options)
 
-  @api\_token = api\_token
+  @api_token = api_token
 
-  @room\_name = room\_name
+  @room_name = room_name
 
   @msg = msg
 
-  @hipchat\_options = options\[:hipchat\_options\]
+  @hipchat_options = options[:hipchat_options]
 
-  @msg\_options = options\[:msg\_options\]
+  @msg_options = options[:msg_options]
 
-  @msg\_prefix = options\[:msg\_prefix\]
+  @msg_prefix = options[:msg_prefix]
 
-  @excluded\_envs = options\[:excluded\_envs\]
+  @excluded_envs = options[:excluded_envs]
 
-  @to\_user=options\[:name\]
+  @to_user=options[:name]
 
   case
 
-  when options\[:alerttype\].match(/warning/i)
+  when options[:alerttype].match(/warning/i)
 
   @color = 'yellow'
 
-  when options\[:alerttype\].match(/critical/i)
+  when options[:alerttype].match(/critical/i)
 
   @color = 'red'
 
-  when options\[:alerttype\].match(/info/i)
+  when options[:alerttype].match(/info/i)
 
   @color = 'green'
 
-  end if options\[:alerttype\]
+  end if options[:alerttype]
 
   end
 
@@ -171,11 +168,11 @@ version 2.0. In order for script to work we need to install 2 gems,
 
   if @msg
 
-  @msg\_options\[:color\]=(@color || 'yellow')
+  @msg_options[:color]=(@color || 'yellow')
 
-  client = HipChat::Client.new(@api\_token, @hipchat\_options)
+  client = HipChat::Client.new(@api_token, @hipchat_options)
 
-  client\[@room\_name\].send(@to\_user, \[@msg\_prefix, @msg\].join(' '), @msg\_options)
+  client[@room_name].send(@to_user, [@msg_prefix, @msg].join(' '), @msg_options)
 
   end
 
@@ -201,19 +198,19 @@ version 2.0. In order for script to work we need to install 2 gems,
 
   end
 
-  \[ :message, :apitoken, :roomname\].each do |key|
+  [ :message, :apitoken, :roomname].each do |key|
 
-  Trollop::die "arguments required --\#{key}" unless opts\[key\]
+  Trollop::die "arguments required --\#{key}" unless opts[key]
 
   end
 
-  hipchat=HipChat::NotifyRoomCli.new(opts\[:apitoken\],opts\[:roomname\],opts\[:message\],opts)
+  hipchat=HipChat::NotifyRoomCli.new(opts[:apitoken],opts[:roomname],opts[:message],opts)
 
   hipchat.report
 
   rescue Errno::ENOENT =&gt; err
 
-  abort "hip\_chat\_cli: \#{err.message}"
+  abort "hip_chat_cli: \#{err.message}"
 
   end
   ```
@@ -232,7 +229,7 @@ Service notification
   ```sh
   root@hubot0:/etc/icinga2/scripts\# cat hipchat-service-notification.sh
 
-  \#!/bin/sh
+  #!/bin/sh
 
   template=\`cat &lt;&lt;TEMPLATE
 
@@ -252,7 +249,7 @@ Service notification
 
   Additional Info: \$SERVICEOUTPUT
 
-  Comment: \[\$NOTIFICATIONAUTHORNAME\] \$NOTIFICATIONCOMMENT
+  Comment: [\$NOTIFICATIONAUTHORNAME] \$NOTIFICATIONCOMMENT
 
   TEMPLATE
 
@@ -273,7 +270,7 @@ Host notification
   ```sh
   #root@hubot0:/etc/icinga2/scripts\# cat mail-host-notification-hipchat.sh
 
-  \#!/bin/sh
+  #!/bin/sh
 
   dir="\$(readlink -f \$(dirname \$0))"
 
@@ -283,7 +280,7 @@ Host notification
 
   Additional Info: \$HOSTOUTPUT
 
-  Comment: \[\$NOTIFICATIONAUTHORNAME\] \$NOTIFICATIONCOMMENT
+  Comment: [\$NOTIFICATIONAUTHORNAME] \$NOTIFICATIONCOMMENT
 
   EOF
 
@@ -310,19 +307,19 @@ This will change the Icinga server to support the hipchat adapter ,
 
   import "plugin-notification-command"
 
-  command = \[ SysconfDir + "/icinga2/scripts/mail-host-notification-hipchat.sh" \]
+  command = [ SysconfDir + "/icinga2/scripts/mail-host-notification-hipchat.sh" ]
 
   env = {
 
   NOTIFICATIONTYPE = "\$notification.type\$"
 
-  HOSTALIAS = "\$host.display\_name\$"
+  HOSTALIAS = "\$host.display_name\$"
 
   HOSTADDRESS = "\$address\$"
 
   HOSTSTATE = "\$host.state\$"
 
-  LONGDATETIME = "\$icinga.long\_date\_time\$"
+  LONGDATETIME = "\$icinga.long_date_time\$"
 
   HOSTOUTPUT = "\$host.output\$"
 
@@ -330,7 +327,7 @@ This will change the Icinga server to support the hipchat adapter ,
 
   NOTIFICATIONCOMMENT = "\$notification.comment\$"
 
-  HOSTDISPLAYNAME = "\$host.display\_name\$"
+  HOSTDISPLAYNAME = "\$host.display_name\$"
 
   USEREMAIL = "\$user.email\$"
 
@@ -342,7 +339,7 @@ This will change the Icinga server to support the hipchat adapter ,
 
   import "plugin-notification-command"
 
-  command = \[ SysconfDir + "/icinga2/scripts/hipchat-service-notification.sh" \]
+  command = [ SysconfDir + "/icinga2/scripts/hipchat-service-notification.sh" ]
 
   env = {
 
@@ -350,13 +347,13 @@ This will change the Icinga server to support the hipchat adapter ,
 
   SERVICEDESC = "\$service.name\$"
 
-  HOSTALIAS = "\$host.display\_name\$"
+  HOSTALIAS = "\$host.display_name\$"
 
   HOSTADDRESS = "\$address\$"
 
   SERVICESTATE = "\$service.state\$"
 
-  LONGDATETIME = "\$icinga.long\_date\_time\$"
+  LONGDATETIME = "\$icinga.long_date_time\$"
 
   SERVICEOUTPUT = "\$service.output\$"
 
@@ -364,9 +361,9 @@ This will change the Icinga server to support the hipchat adapter ,
 
   NOTIFICATIONCOMMENT = "\$notification.comment\$"
 
-  HOSTDISPLAYNAME = "\$host.display\_name\$"
+  HOSTDISPLAYNAME = "\$host.display_name\$"
 
-  SERVICEDISPLAYNAME = "\$service.display\_name\$"
+  SERVICEDISPLAYNAME = "\$service.display_name\$"
 
   USEREMAIL = "\$user.email\$"
 
@@ -390,7 +387,7 @@ Roadmap
 2.  Configure to talk to groups using token from user settings in
     > hipchat
 
-3.  Change notification files and update token+room\_ids
+3.  Change notification files and update token+room_ids
 
 All these steps are required to make sure hubot can take actions on
 events. For now hubot can not take actions if the user Hubot and
